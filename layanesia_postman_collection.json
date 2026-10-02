@@ -1,0 +1,741 @@
+{
+	"info": {
+		"_postman_id": "layanesia-api-collection-2026",
+		"name": "Layanesia On-Demand Gig Marketplace API",
+		"description": "Postman API Collection untuk Platform Layanesia (Go Fiber + GORM + PostgreSQL).\nLengkap untuk Seluruh Sprint (Sprint 0 - Sprint 6): Auth, Profile, Location, Midtrans Payment, Talent Showcase, Job Board, Match Connections & Reciprocal Rating.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": "",
+			"type": "string"
+		}
+	],
+	"item": [
+		{
+			"name": "00. Health Check",
+			"item": [
+				{
+					"name": "API Health Check",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/health",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"health"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "01. Auth & Profile (Sprint 1)",
+			"item": [
+				{
+					"name": "Register User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"budi.worker@gmail.com\",\n  \"phone\": \"081234567890\",\n  \"name\": \"Budi Santoso\",\n  \"password\": \"Password123!\",\n  \"active_mode\": \"SEEKER\",\n  \"province\": \"DKI Jakarta\",\n  \"city\": \"Jakarta Selatan\",\n  \"district\": \"Kebayoran Baru\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/auth/register",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"budi.worker@gmail.com\",\n  \"password\": \"Password123!\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/auth/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Current Profile (/me)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/users/me",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"me"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Profile & Location Domisili",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Budi Santoso, S.Kom\",\n  \"phone\": \"081234567890\",\n  \"province\": \"DKI Jakarta\",\n  \"city\": \"Jakarta Selatan\",\n  \"district\": \"Cilandak\",\n  \"address_detail\": \"Jl. Fatmawati No. 12\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/users/profile",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Switch Role Mode (SEEKER ↔ EMPLOYER)",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"mode\": \"EMPLOYER\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/users/switch-mode",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"switch-mode"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Verifikasi KTP",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"ktp_number\": \"3174012304900001\",\n  \"ktp_image_url\": \"/uploads/ktp_budi.jpg\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/users/verify-ktp",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"verify-ktp"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "02. Location Module (Sprint 2)",
+			"item": [
+				{
+					"name": "Get All Provinces",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/locations/provinces",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"locations",
+								"provinces"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Cities by Province",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/locations/cities?province=DKI Jakarta",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"locations",
+								"cities"
+							],
+							"query": [
+								{
+									"key": "province",
+									"value": "DKI Jakarta"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Districts by City",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/locations/districts?city=Jakarta Selatan",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"locations",
+								"districts"
+							],
+							"query": [
+								{
+									"key": "city",
+									"value": "Jakarta Selatan"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "03. Monetization & Subscriptions (Sprint 3)",
+			"item": [
+				{
+					"name": "Checkout Subscription (Generate Snap Token)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"plan_type\": \"POST_SKILL_10K\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/subscriptions/checkout",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"subscriptions",
+								"checkout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Simulate Activate Subscription",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"plan_type\": \"APPLY_JOB_5K\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/subscriptions/simulate-activate",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"subscriptions",
+								"simulate-activate"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "04. Talent Showcase & Direct Offer (Sprint 4)",
+			"item": [
+				{
+					"name": "Post Skill (Requires 10K Sub)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"category\": \"PROFESIONAL\",\n  \"title\": \"Supir Pengemudi Operasional Insidental\",\n  \"description\": \"Pengalaman supir mobil mewah 5 tahun. SIM A aktif.\",\n  \"rate_type\": \"PER_DAY\",\n  \"rate_amount\": 250000,\n  \"availability\": \"AVAILABLE\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/skills",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"skills"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Search Talent Showcase",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/skills?province=DKI Jakarta&city=Jakarta Selatan",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"skills"
+							],
+							"query": [
+								{
+									"key": "province",
+									"value": "DKI Jakarta"
+								},
+								{
+									"key": "city",
+									"value": "Jakarta Selatan"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Send Direct Offer to Talent",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"skill_posting_id\": \"PASTE_SKILL_POSTING_UUID_HERE\",\n  \"offered_budget\": 300000,\n  \"work_date\": \"2026-09-10\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/offers",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"offers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Respond to Job Offer (Accept / Decline)",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"status\": \"ACCEPTED\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/offers/PASTE_JOB_OFFER_UUID_HERE/respond",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"offers",
+								"PASTE_JOB_OFFER_UUID_HERE",
+								"respond"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "05. Job Board Module (Sprint 5)",
+			"item": [
+				{
+					"name": "Post Free Job Opening (Employer)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"category\": \"PROFESIONAL\",\n  \"title\": \"Dibutuhkan Supir Operasional 2 Hari Shift Malam\",\n  \"description\": \"Pengemudi armada logistik kantor pengganti staf cuti.\",\n  \"budget\": 600000,\n  \"work_date\": \"2026-09-10\",\n  \"duration_type\": \"DAYS\",\n  \"duration_value\": 2\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/jobs",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"jobs"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Search Jobs (Guest / Public Preview)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/jobs?province=DKI Jakarta&city=Jakarta Selatan",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"jobs"
+							],
+							"query": [
+								{
+									"key": "province",
+									"value": "DKI Jakarta"
+								},
+								{
+									"key": "city",
+									"value": "Jakarta Selatan"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Apply for Job (Requires KTP, Resume & 5K Sub)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/jobs/PASTE_JOB_UUID_HERE/apply",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"jobs",
+								"PASTE_JOB_UUID_HERE",
+								"apply"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Applicants for Job (Employer)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/jobs/PASTE_JOB_UUID_HERE/applicants",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"jobs",
+								"PASTE_JOB_UUID_HERE",
+								"applicants"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Accept Job Applicant (Creates Connection)",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/jobs/applications/PASTE_APPLICATION_UUID_HERE/accept",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"jobs",
+								"applications",
+								"PASTE_APPLICATION_UUID_HERE",
+								"accept"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "06. Match Connections & Ratings (Sprint 6)",
+			"item": [
+				{
+					"name": "Get Active Connections (Unlocked WhatsApp & Contact)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/connections/active",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"connections",
+								"active"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Reciprocal Rating & Review",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"connection_id\": \"PASTE_CONNECTION_UUID_HERE\",\n  \"rating_stars\": 5,\n  \"comment\": \"Pekerja sangat tepat waktu dan profesional!\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/ratings",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"ratings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User Ratings Summary",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/ratings/user/PASTE_USER_UUID_HERE",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"ratings",
+								"user",
+								"PASTE_USER_UUID_HERE"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

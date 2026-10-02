@@ -1,0 +1,26 @@
+# Secrets
+.env
+.env.*
+!.env.example
+
+# Local uploads (dev fallback)
+uploads/
+
+# Binaries & build output
+bin/
+dist/
+*.exe
+*.test
+*.out
+main
+server
+layanesia-server
+
+# Coverage / profiling
+coverage.*
+*.prof
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/

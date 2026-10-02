@@ -1,0 +1,16 @@
+DROP INDEX IF EXISTS idx_skill_postings_desc_trgm;
+DROP INDEX IF EXISTS idx_skill_postings_title_trgm;
+DROP INDEX IF EXISTS idx_job_postings_desc_trgm;
+DROP INDEX IF EXISTS idx_job_postings_title_trgm;
+DROP INDEX IF EXISTS idx_ratings_reviewer;
+DROP INDEX IF EXISTS idx_connections_worker;
+DROP INDEX IF EXISTS idx_connections_employer;
+DROP INDEX IF EXISTS idx_job_offers_worker;
+DROP INDEX IF EXISTS idx_job_offers_employer;
+DROP INDEX IF EXISTS idx_job_applications_job;
+DROP INDEX IF EXISTS idx_job_applications_applicant;
+DROP INDEX IF EXISTS idx_skill_postings_created_at;
+DROP INDEX IF EXISTS idx_job_postings_created_at;
+DROP INDEX IF EXISTS idx_skill_postings_search;
+DROP INDEX IF EXISTS idx_job_postings_search;
+DROP INDEX IF EXISTS idx_subscriptions_active_lookup;
