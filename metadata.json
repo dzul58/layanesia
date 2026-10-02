@@ -1,0 +1,6 @@
+{
+  "name": "Layanesia",
+  "description": "Platform marketplace tenaga kerja lokal terpercaya dan penghubung jasa harian/insidental di Indonesia",
+  "permissions": [],
+  "capabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
